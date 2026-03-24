@@ -1,9 +1,9 @@
-module seeder
+module github.com/kamalakshancg/GolangPOC
 
 go 1.26.1
 
 require (
-	github.com/jackc/pgx/v5 v5.9.0
+	github.com/jackc/pgx/v5 v5.9.1
 	github.com/joho/godotenv v1.5.1
 )
 
