@@ -12,5 +12,7 @@ func main() {
 	}
 	defer conn.Close(context.Background())
 
-	SeedData(conn)
+	CreateTables(conn)
+
+	LoadToDatabase(conn)
 }

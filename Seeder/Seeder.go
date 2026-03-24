@@ -97,3 +97,36 @@ func LoadToDatabase(conn *pgx.Conn) {
 
 	fmt.Printf("Seeding Complete in %s! Database is now heavily loaded.\n", time.Since(startTime))
 }
+
+func CreateTables(conn *pgx.Conn) {
+	queries := []string{
+		`CREATE TABLE IF NOT EXISTS users (
+			id SERIAL PRIMARY KEY,
+			name VARCHAR(255) NOT NULL,
+			email VARCHAR(255) UNIQUE NOT NULL
+		);`,
+		`CREATE TABLE IF NOT EXISTS orders (
+			id SERIAL PRIMARY KEY,
+			user_id INT NOT NULL REFERENCES users(id),
+			amount NUMERIC(10, 2) NOT NULL,
+			status VARCHAR(50) NOT NULL,
+			description TEXT
+		);`,
+		`CREATE TABLE IF NOT EXISTS items (
+			id SERIAL PRIMARY KEY,
+			order_id INT NOT NULL REFERENCES orders(id),
+			product_name VARCHAR(255) NOT NULL,
+			quantity INT NOT NULL,
+			price NUMERIC(10, 2) NOT NULL
+		);`,
+	}
+
+	for _, query := range queries {
+		_, err := conn.Exec(context.Background(), query)
+		if err != nil {
+			log.Fatalf("Failed to execute query: %v\nQuery: %s\n", err, query)
+		}
+	}
+
+	fmt.Println("Tables created successfully!")
+}
