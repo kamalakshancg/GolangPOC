@@ -12,36 +12,6 @@ import (
 
 const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-func SeedData(conn *pgx.Conn) {
-	fmt.Println("Seeding 100k Users...")
-	users := make([][]interface{}, 100000)
-	for i := 0; i < 100000; i++ {
-		users[i] = []interface{}{fmt.Sprintf("User %d", i+1), fmt.Sprintf("user%d@example.com", i+1)}
-	}
-	_, _ = conn.CopyFrom(context.Background(), pgx.Identifier{"users"}, []string{"name", "email"}, pgx.CopyFromRows(users))
-
-	fmt.Println("Seeding 500k Orders & 1M Items...")
-	for b := 0; b < 50; b++ { // 50 batches of 10k orders
-		orders := make([][]interface{}, 10000)
-		for i := 0; i < 10000; i++ {
-			userID := (i % 100000) + 1
-			orders[i] = []interface{}{userID, 99.99, "COMPLETED", "Wide description text for hydration testing"}
-		}
-		_, _ = conn.CopyFrom(context.Background(), pgx.Identifier{"orders"}, []string{"user_id", "amount", "status", "description"}, pgx.CopyFromRows(orders))
-	}
-
-	// Seed Items (2 per order)
-	for b := 0; b < 100; b++ {
-		items := make([][]interface{}, 10000)
-		for i := 0; i < 10000; i++ {
-			orderID := (b * 5000) + (i / 2) + 1
-			items[i] = []interface{}{orderID, "Product XYZ", 2, 49.99}
-		}
-		_, _ = conn.CopyFrom(context.Background(), pgx.Identifier{"items"}, []string{"order_id", "product_name", "quantity", "price"}, pgx.CopyFromRows(items))
-	}
-	fmt.Println("Seeding Complete!")
-}
-
 func generateRandom1KBString() string {
 	b := make([]byte, 1024)
 	for i := range b {
@@ -50,70 +20,134 @@ func generateRandom1KBString() string {
 	return string(b)
 }
 
-func LoadToDatabase(conn *pgx.Conn) {
+func LoadUsersAndOrders(conn *pgx.Conn) {
 	ctx := context.Background()
 	startTime := time.Now()
 
-	// 1. Seed Users First (Required for Foreign Key)
+	// 1. Start a Transaction
+	tx, err := conn.Begin(ctx)
+	if err != nil {
+		log.Fatal("Could not start transaction:", err)
+	}
+	defer tx.Rollback(ctx)
+
+	// 2. Clear existing data
+	fmt.Println("Cleaning tables and resetting identities...")
+	tx.Exec(ctx, "TRUNCATE users, orders, items RESTART IDENTITY CASCADE;")
+
+	// 3. Seed 100,000 Users
 	fmt.Println("Seeding 100,000 Users...")
 	userBatchSize := 10000
 	for i := 0; i < 100000; i += userBatchSize {
 		userRows := make([][]interface{}, userBatchSize)
 		for j := 0; j < userBatchSize; j++ {
 			id := i + j + 1
-			userRows[j] = []interface{}{
-				fmt.Sprintf("User %d", id),
-				fmt.Sprintf("user%d@example.com", id),
-			}
+			userRows[j] = []interface{}{id, fmt.Sprintf("User %d", id), fmt.Sprintf("user%d@example.com", id)}
 		}
-		_, err := conn.CopyFrom(
-			ctx,
-			pgx.Identifier{"users"},
-			[]string{"name", "email"},
-			pgx.CopyFromRows(userRows),
-		)
-		if err != nil {
-			log.Fatalf("User seeding failed: %v", err)
-		}
+		tx.CopyFrom(ctx, pgx.Identifier{"users"}, []string{"id", "name", "email"}, pgx.CopyFromRows(userRows))
 	}
 
-	// 2. Seed 1 Million Orders
-	fmt.Println("Seeding 1,000,000 Orders (Defeating DB compression)...")
+	// 4. Seed 1,000,000 Orders
+	fmt.Println("Seeding 1,000,000 Orders...")
+	totalOrders := 1000000
+	orderBatchSize := 10000
 
-	var payloads [50]string
+	// Pre-generate random payloads
+	payloads := make([]string, 50)
 	for i := 0; i < 50; i++ {
 		payloads[i] = generateRandom1KBString()
 	}
 
-	totalOrders := 1000000
+	// ---> NEW: Possible Statuses
+	statuses := []string{"FAILED", "COMPLETED", "RETURN"}
+
+	for b := 0; b < totalOrders/orderBatchSize; b++ {
+		orderRows := make([][]interface{}, orderBatchSize)
+		for i := 0; i < orderBatchSize; i++ {
+			orderID := (b * orderBatchSize) + i + 1
+			userID := (orderID % 100000) + 1
+
+			// ---> NEW: Random amount between 100.00 and 1000.00
+			randomAmount := 100.0 + rand.Float64()*(1000.0-100.0)
+
+			// ---> NEW: Random status from the slice
+			randomStatus := statuses[rand.Intn(len(statuses))]
+
+			orderRows[i] = []interface{}{
+				orderID,
+				userID,
+				randomAmount,
+				randomStatus,
+				payloads[rand.Intn(50)],
+			}
+		}
+		_, err = tx.CopyFrom(
+			ctx,
+			pgx.Identifier{"orders"},
+			[]string{"id", "user_id", "amount", "status", "description"},
+			pgx.CopyFromRows(orderRows),
+		)
+		if err != nil {
+			log.Fatalf("Order batch %d failed: %v", b, err)
+		}
+
+		if (b+1)%20 == 0 {
+			fmt.Printf("Inserted %d / %d orders...\n", (b+1)*orderBatchSize, totalOrders)
+		}
+	}
+
+	// 5. Commit
+	if err := tx.Commit(ctx); err != nil {
+		log.Fatal("Failed to commit users and orders:", err)
+	}
+
+	// 6. Sync sequences
+	conn.Exec(ctx, "SELECT setval('users_id_seq', (SELECT MAX(id) FROM users))")
+	conn.Exec(ctx, "SELECT setval('orders_id_seq', (SELECT MAX(id) FROM orders))")
+
+	fmt.Printf("Users and Orders seeded in %s!\n", time.Since(startTime))
+
+	// Note: Total items changed to 2,000,000 as per your SeedItems call
+	SeedItems(ctx, conn, 2000000, totalOrders)
+}
+
+func SeedItems(ctx context.Context, conn *pgx.Conn, totalItems int, maxOrderID int) {
+	fmt.Printf("Starting random insertion of %d items...\n", totalItems)
+	startTime := time.Now()
+
 	batchSize := 10000
-	batches := totalOrders / batchSize
+	batches := totalItems / batchSize
 
 	for b := 0; b < batches; b++ {
-		orders := make([][]interface{}, batchSize)
+		itemRows := make([][]interface{}, batchSize)
 		for i := 0; i < batchSize; i++ {
-			// This now maps to IDs 1 through 100,000 which we just created
-			userID := (i % 100000) + 1
-			randomPayload := payloads[rand.Intn(len(payloads))]
-			orders[i] = []interface{}{userID, 99.99, "COMPLETED", randomPayload}
+			// Generate a random order_id between 1 and 1,000,000
+			randomOrderID := rand.Intn(maxOrderID) + 1
+
+			itemRows[i] = []interface{}{
+				randomOrderID,
+				fmt.Sprintf("Product-%d", rand.Intn(500)), // 500 unique products
+				rand.Intn(5) + 1, // Quantity 1-5
+				19.99,            // Price
+			}
 		}
 
 		_, err := conn.CopyFrom(
 			ctx,
-			pgx.Identifier{"orders"},
-			[]string{"user_id", "amount", "status", "description"},
-			pgx.CopyFromRows(orders),
+			pgx.Identifier{"items"},
+			[]string{"order_id", "product_name", "quantity", "price"},
+			pgx.CopyFromRows(itemRows),
 		)
 		if err != nil {
-			log.Fatalf("Batch %d failed: %v\n", b, err)
+			log.Fatalf("Item batch %d failed: %v", b, err)
 		}
 
-		if (b+1)%10 == 0 {
-			fmt.Printf("Inserted %d / %d orders...\n", (b+1)*batchSize, totalOrders)
+		if (b+1)%50 == 0 {
+			fmt.Printf("Inserted %d / %d items...\n", (b+1)*batchSize, totalItems)
 		}
 	}
 
-	fmt.Printf("Seeding Complete in %s!\n", time.Since(startTime))
+	fmt.Printf("Items seeded successfully in %s\n", time.Since(startTime))
 }
 
 func CreateTables(conn *pgx.Conn) {

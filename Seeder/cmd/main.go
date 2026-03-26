@@ -17,5 +17,5 @@ func main() {
 
 	seeder.CreateTables(conn)
 
-	seeder.LoadToDatabase(conn)
+	seeder.LoadUsersAndOrders(conn)
 }
