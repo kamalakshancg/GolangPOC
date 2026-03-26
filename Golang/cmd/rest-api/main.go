@@ -14,17 +14,27 @@ func main() {
 	database := db.NewPostgresDB(dsn)
 
 	// 2. Dependency Injection
-	pocRepo := repository.PocRepo{Db: database}
-	pocService := service.PocService{Repo: &pocRepo}
-	h := handler.PocHandler{Service: &pocService}
+
+	userRepo := repository.UserRepo{Db: database}
+	orderRepo := repository.OrderRepo{Db: database}
+
+	userService := service.UserService{UserRepo: &userRepo}
+	userHandler := handler.UserHandler{UserService: &userService}
+
+	orderService := service.OrderService{OrderRepo: &orderRepo}
+	orderHandler := handler.OrderHandler{OrderService: &orderService}
 
 	// 3. Router Setup
 	r := gin.Default()
-	api := r.Group("/api")
+	api := r.Group("/api/user")
 	{
-		api.GET("/test1", h.Test1)
-		api.GET("/test2", h.Test2)
-		api.GET("/test3", h.Test3)
+		api.GET("/test3", userHandler.Test3)
+	}
+
+	api1 := r.Group("/api/order")
+	{
+		api1.GET("/test1", orderHandler.Test1)
+		api1.GET("/test2", orderHandler.Test2)
 	}
 
 	r.Run(":8080")

@@ -8,27 +8,19 @@ import (
 	"github.com/kamalakshancg/GolangPOC/internal/repository"
 )
 
-type PocService struct {
-	Repo *repository.PocRepo
+type UserService struct {
+	UserRepo *repository.UserRepo
 }
 
-func NewPocService(repo *repository.PocRepo) *PocService {
-	return &PocService{Repo: repo}
+func NewUserService(userRepo *repository.UserRepo) *UserService {
+	return &UserService{UserRepo: userRepo}
 }
 
-func (s *PocService) ExecuteTest1() (string, error) {
-	return s.Repo.PingDB()
-}
-
-func (s *PocService) ExecuteTest2() ([]entity.Order, error) {
-	return s.Repo.GetWideOrders()
-}
-
-func (s *PocService) ExecuteTest3() ([]entity.User, error) {
+func (s *UserService) ExecuteTest3() ([]entity.User, error) {
 	// Start the stopwatch for your spreadsheet
 	start := time.Now()
 
-	rows, err := s.Repo.GetDeepNestedRows()
+	rows, err := s.UserRepo.GetDeepNestedRows()
 	if err != nil {
 		return nil, err
 	}
