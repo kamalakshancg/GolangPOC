@@ -60,6 +60,7 @@ func (s *UserService) ExecuteTest3() ([]entity.User, error) {
 		if currentOrder == nil {
 			newOrder := entity.Order{
 				ID:          row.OrderID,
+				UserID:      row.UserID,
 				Amount:      row.Amount,
 				Status:      row.Status,
 				Description: row.Description,

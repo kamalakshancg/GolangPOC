@@ -1,9 +1,10 @@
 package entity
 
 type Order struct {
-	ID          int     `json:"id"`
-	Amount      float64 `json:"amount"`
-	Status      string  `json:"status"`
-	Description string  `json:"description"`
-	Items       []Item  `json:"items"` // Slice of actual Items
+	ID          int     `db:"id" json:"id"`
+	UserID      int     `db:"user_id" json:"user_id"` // This is the exact fix!
+	Amount      float64 `db:"amount" json:"amount"`
+	Status      string  `db:"status" json:"status"`
+	Description string  `db:"description" json:"description"`
+	Items       []Item  `json:"items"` // sqlx ignores this since it's not in the SELECT, which is perfect
 }

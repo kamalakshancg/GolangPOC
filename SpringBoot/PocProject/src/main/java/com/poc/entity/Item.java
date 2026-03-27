@@ -2,7 +2,7 @@ package com.poc.entity;
 
 import lombok.Getter;
 
-@Getter
+
 public class Item {
     private final Integer id;
     private final String product_name;
@@ -16,4 +16,19 @@ public class Item {
         this.price = price;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public String getProduct_name() {
+        return product_name;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
 }

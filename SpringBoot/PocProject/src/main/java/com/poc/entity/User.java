@@ -1,15 +1,23 @@
 package com.poc.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Getter
+
+@Entity
+@Table(name = "users")
 public class User {
-    private final Integer id;
-    private final String name;
-    private final String email;
+    @Id
+    private Integer id;
+    private String name;
+    private String email;
+    @Transient
     private final Set<Order> orders = new HashSet<>();
 
     public User(Integer id, String name, String email) {
@@ -18,7 +26,26 @@ public class User {
         this.email = email;
     }
 
+    protected User(){
+    }
+
     public void addOrder(final Order order){
         this.orders.add(order);
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Set<Order> getOrders() {
+        return orders;
     }
 }

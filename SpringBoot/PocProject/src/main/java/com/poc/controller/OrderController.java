@@ -5,11 +5,13 @@ import com.poc.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/order")
 public class OrderController {
 
     @Autowired
@@ -18,12 +20,12 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @GetMapping("/api/test1")
+    @GetMapping("/test1")
     public String test1() {
         return jdbcTemplate.queryForObject("SELECT 'pong'", String.class);
     }
 
-    @GetMapping("/api/test2")
+    @GetMapping("/test2")
     public List<Order> test2() {
         return orderService.getOrderDetails();
     }
