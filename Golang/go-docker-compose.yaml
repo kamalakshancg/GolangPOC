@@ -24,7 +24,3 @@ services:
 networks:
   poc_network:
     external: true
-
-# Define the persistent volume for the database
-volumes:
-  pgdata:
