@@ -18,7 +18,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
         INNER JOIN orders o ON u.id = o.user_id
         INNER JOIN items i ON o.id = i.order_id
         WHERE o.amount > 500 AND o.status = 'COMPLETED'
-        ORDER BY u.id, o.id
+        ORDER BY u.id
         LIMIT 1000
         """, nativeQuery = true)
     List<Object[]> userWithOrder();
