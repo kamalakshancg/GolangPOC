@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5"
+	"github.com/jmoiron/sqlx"
 )
 
 const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -181,4 +182,40 @@ func CreateTables(conn *pgx.Conn) {
 	}
 
 	fmt.Println("Tables created successfully!")
+}
+
+// OptimizeDatabase creates necessary indexes and updates statistics
+func OptimizeDatabase(db *sqlx.DB) error {
+	start := time.Now()
+	log.Println("⚙️ Starting database optimization (Indexes & Vacuum)...")
+
+	// 1. Define the Index Queries
+	// Using IF NOT EXISTS makes this idempotent (safe to run multiple times)
+	indexQueries := []string{
+		"CREATE INDEX IF NOT EXISTS idx_orders_user_id ON orders(user_id);",
+		"CREATE INDEX IF NOT EXISTS idx_items_order_id ON items(order_id);",
+		"CREATE INDEX IF NOT EXISTS idx_orders_status_amount ON orders(status, amount);",
+		"CREATE INDEX IF NOT EXISTS idx_users_id ON users(id);",
+	}
+
+	// 2. Execute Indexes
+	for _, query := range indexQueries {
+		_, err := db.Exec(query)
+		if err != nil {
+			return fmt.Errorf("failed to execute index query: %w", err)
+		}
+	}
+	log.Println("✅ Indexes verified/created successfully.")
+
+	// 3. Run VACUUM ANALYZE
+	// This forces PostgreSQL to scan the tables and update its internal statistics
+	// so it actually uses the indexes we just built.
+	log.Println("🧹 Running VACUUM ANALYZE (This may take a few seconds on a 1GB DB)...")
+	_, err := db.Exec("VACUUM ANALYZE;")
+	if err != nil {
+		return fmt.Errorf("failed to run VACUUM ANALYZE: %w", err)
+	}
+
+	log.Printf("🚀 Database optimization complete! Took %v\n", time.Since(start))
+	return nil
 }

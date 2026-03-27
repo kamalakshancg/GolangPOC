@@ -18,4 +18,6 @@ func main() {
 	seeder.CreateTables(conn)
 
 	seeder.LoadUsersAndOrders(conn)
+
+	seeder.CreateDBIndexAndOptimize(conn)
 }
