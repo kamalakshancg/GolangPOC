@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # ----------------------------------------
+  # 1. THE GO APPLICATION
+  # ----------------------------------------
+  go-api:
+    build: .
+    container_name: go_poc
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_NAME=poc_db
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - poc_network
+
+networks:
+  poc_network:
+    external: true
+
+# Define the persistent volume for the database
+volumes:
+  pgdata:

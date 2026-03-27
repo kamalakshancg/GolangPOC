@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # ----------------------------------------
+  # 1. THE DATABASE
+  # ----------------------------------------
+  postgres:
+    image: postgres:15-alpine
+    container_name: poc_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: poc_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d poc_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - poc_network # Just reference the name here
+
+# ----------------------------------------
+# 2. SHARED NETWORK DEFINITION
+# ----------------------------------------
+networks:
+  poc_network:
+    name: poc_network # This forces the name to be exactly "poc_network"
+
+# ----------------------------------------
+# 3. PERSISTENT VOLUME DEFINITION
+# ----------------------------------------
+volumes:
+  pgdata:
