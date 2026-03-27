@@ -185,7 +185,7 @@ func CreateTables(conn *pgx.Conn) {
 }
 
 // OptimizeDatabase creates necessary indexes and updates statistics
-func OptimizeDatabase(db *sqlx.DB) error {
+func CreateDBIndexAndOptimize(db *sqlx.DB) error {
 	start := time.Now()
 	log.Println("⚙️ Starting database optimization (Indexes & Vacuum)...")
 
