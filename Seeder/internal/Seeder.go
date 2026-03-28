@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5"
-	"github.com/jmoiron/sqlx"
 )
 
 const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -185,7 +184,7 @@ func CreateTables(conn *pgx.Conn) {
 }
 
 // OptimizeDatabase creates necessary indexes and updates statistics
-func CreateDBIndexAndOptimize(db *sqlx.DB) error {
+func CreateDBIndexAndOptimize(conn *pgx.Conn) error {
 	start := time.Now()
 	log.Println("⚙️ Starting database optimization (Indexes & Vacuum)...")
 
@@ -200,7 +199,7 @@ func CreateDBIndexAndOptimize(db *sqlx.DB) error {
 
 	// 2. Execute Indexes
 	for _, query := range indexQueries {
-		_, err := db.Exec(query)
+		_, err := conn.Exec(context.Background(), query)
 		if err != nil {
 			return fmt.Errorf("failed to execute index query: %w", err)
 		}
@@ -211,7 +210,7 @@ func CreateDBIndexAndOptimize(db *sqlx.DB) error {
 	// This forces PostgreSQL to scan the tables and update its internal statistics
 	// so it actually uses the indexes we just built.
 	log.Println("🧹 Running VACUUM ANALYZE (This may take a few seconds on a 1GB DB)...")
-	_, err := db.Exec("VACUUM ANALYZE;")
+	_, err := conn.Exec(context.Background(), "VACUUM ANALYZE;")
 	if err != nil {
 		return fmt.Errorf("failed to run VACUUM ANALYZE: %w", err)
 	}
