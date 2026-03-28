@@ -23,10 +23,7 @@ func NewPostgresDB(dsn string) *sqlx.DB {
 }
 
 func LoadDBConfig() string {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	godotenv.Load()
 
 	host := os.Getenv("DB_HOST")
 	port := os.Getenv("DB_PORT")

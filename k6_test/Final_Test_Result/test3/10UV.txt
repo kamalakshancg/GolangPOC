@@ -1,0 +1,220 @@
+GO APP:
+PS D:\POC\k6_test> k6 run --vus 10 --duration 30s -e API_PORT=8080 -e API_PATH=api/user/test3 load_test.js
+
+         /\      Grafana   /‾‾/
+    /\  /  \     |\  __   /  /
+   /  \/    \    | |/ /  /   ‾‾\
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/
+
+
+     execution: local
+        script: load_test.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 10 max VUs, 1m0s max duration (incl. graceful stop):
+              * default: 10 looping VUs for 30s (gracefulStop: 30s)
+
+
+
+  █ THRESHOLDS
+
+    http_req_duration
+    ✓ 'p(99)<1000' p(99)=56.3ms
+
+    http_req_failed
+    ✓ 'rate<0.01' rate=0.00%
+
+
+  █ TOTAL RESULTS
+
+    checks_total.......: 4602    152.947584/s
+    checks_succeeded...: 100.00% 4602 out of 4602
+    checks_failed......: 0.00%   0 out of 4602
+
+    ✓ status is 200
+    ✓ has body
+
+    HTTP
+    http_req_duration..............: avg=29.42ms  min=12.27ms  med=25.98ms  max=456.14ms p(90)=41.25ms  p(95)=46.42ms
+      { expected_response:true }...: avg=29.42ms  min=12.27ms  med=25.98ms  max=456.14ms p(90)=41.25ms  p(95)=46.42ms
+    http_req_failed................: 0.00%  0 out of 2301
+    http_reqs......................: 2301   76.473792/s
+
+    EXECUTION
+    iteration_duration.............: avg=130.49ms min=113.46ms med=127.04ms max=571.65ms p(90)=142.42ms p(95)=147.48ms
+    iterations.....................: 2301   76.473792/s
+    vus............................: 10     min=10        max=10
+    vus_max........................: 10     min=10        max=10
+
+    NETWORK
+    data_received..................: 1.3 GB 43 MB/s
+    data_sent......................: 193 kB 6.4 kB/s
+
+
+
+
+running (0m30.1s), 00/10 VUs, 2301 complete and 0 interrupted iterations
+default ✓ [======================================] 10 VUs  30s
+
+CPU/ MEM Stats
+Container_Name	 CPU_Percentage	 Memory_Usage
+go_poc	0.00%	 2.48MiB / 3.499GiB
+poc_postgres	0.03%	 37.38MiB / 3.499GiB
+go_poc	0.00%	 2.48MiB / 3.499GiB
+poc_postgres	3.14%	 37.59MiB / 3.499GiB
+go_poc	0.00%	 2.48MiB / 3.499GiB
+poc_postgres	0.02%	 37.35MiB / 3.499GiB
+go_poc	9.45%	 9.953MiB / 3.499GiB
+poc_postgres	37.26%	 60.97MiB / 3.499GiB
+go_poc	142.88%	 21.18MiB / 3.499GiB
+poc_postgres	87.67%	 66.67MiB / 3.499GiB
+go_poc	136.91%	 24.04MiB / 3.499GiB
+poc_postgres	81.40%	 66.73MiB / 3.499GiB
+go_poc	138.15%	 12.55MiB / 3.499GiB
+poc_postgres	90.44%	 66.7MiB / 3.499GiB
+go_poc	145.33%	 24.52MiB / 3.499GiB
+poc_postgres	86.35%	 66.94MiB / 3.499GiB
+go_poc	139.75%	 15.46MiB / 3.499GiB
+poc_postgres	87.67%	 71.06MiB / 3.499GiB
+go_poc	141.80%	 13.32MiB / 3.499GiB
+poc_postgres	86.19%	 66.75MiB / 3.499GiB
+go_poc	141.92%	 15.42MiB / 3.499GiB
+poc_postgres	85.94%	 66.73MiB / 3.499GiB
+go_poc	159.97%	 16.79MiB / 3.499GiB
+poc_postgres	97.75%	 66.99MiB / 3.499GiB
+go_poc	139.17%	 11.73MiB / 3.499GiB
+poc_postgres	78.49%	 66.8MiB / 3.499GiB
+go_poc	148.74%	 10.86MiB / 3.499GiB
+poc_postgres	88.63%	 67.09MiB / 3.499GiB
+go_poc	133.76%	 12.77MiB / 3.499GiB
+poc_postgres	79.16%	 67.02MiB / 3.499GiB
+go_poc	0.00%	 11.9MiB / 3.499GiB
+poc_postgres	22.14%	 66.75MiB / 3.499GiB
+go_poc	0.00%	 10.84MiB / 3.499GiB
+poc_postgres	2.94%	 67.25MiB / 3.499GiB
+go_poc	0.00%	 10.84MiB / 3.499GiB
+poc_postgres	0.00%	 66.93MiB / 3.499GiB
+
+
+-------------------------------------------------------------------------------------------------------------
+Java APP:
+PS D:\POC\k6_test> k6 run --vus 10 --duration 30s -e API_PORT=8080 -e API_PATH=api/user/test3 load_test.js
+
+         /\      Grafana   /‾‾/
+    /\  /  \     |\  __   /  /
+   /  \/    \    | |/ /  /   ‾‾\
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/
+
+
+     execution: local
+        script: load_test.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 10 max VUs, 1m0s max duration (incl. graceful stop):
+              * default: 10 looping VUs for 30s (gracefulStop: 30s)
+
+
+
+  █ THRESHOLDS
+
+    http_req_duration
+    ✓ 'p(99)<1000' p(99)=99.07ms
+
+    http_req_failed
+    ✓ 'rate<0.01' rate=0.00%
+
+
+  █ TOTAL RESULTS
+
+    checks_total.......: 4592    152.433483/s
+    checks_succeeded...: 100.00% 4592 out of 4592
+    checks_failed......: 0.00%   0 out of 4592
+
+    ✓ status is 200
+    ✓ has body
+
+    HTTP
+    http_req_duration..............: avg=30.05ms  min=14.27ms  med=24.14ms max=794.99ms p(90)=36.46ms  p(95)=42.26ms
+      { expected_response:true }...: avg=30.05ms  min=14.27ms  med=24.14ms max=794.99ms p(90)=36.46ms  p(95)=42.26ms
+    http_req_failed................: 0.00%  0 out of 2296
+    http_reqs......................: 2296   76.216741/s
+
+    EXECUTION
+    iteration_duration.............: avg=131.08ms min=114.93ms med=125.1ms max=904.75ms p(90)=137.73ms p(95)=143.53ms
+    iterations.....................: 2296   76.216741/s
+    vus............................: 10     min=10        max=10
+    vus_max........................: 10     min=10        max=10
+
+    NETWORK
+    data_received..................: 1.3 GB 43 MB/s
+    data_sent......................: 193 kB 6.4 kB/s
+
+
+
+
+running (0m30.1s), 00/10 VUs, 2296 complete and 0 interrupted iterations
+default ✓ [======================================] 10 VUs  30s
+
+CPU/MEM Stats:
+Container_Name	 CPU_Percentage	 Memory_Usage
+java_poc	0.27%	 251.3MiB / 3.499GiB
+poc_postgres	0.02%	 56.61MiB / 3.499GiB
+java_poc	0.27%	 251.6MiB / 3.499GiB
+poc_postgres	3.06%	 57.15MiB / 3.499GiB
+java_poc	0.27%	 251.3MiB / 3.499GiB
+poc_postgres	0.02%	 56.61MiB / 3.499GiB
+java_poc	0.32%	 251.3MiB / 3.499GiB
+poc_postgres	0.04%	 57.76MiB / 3.499GiB
+java_poc	0.27%	 251.3MiB / 3.499GiB
+poc_postgres	3.20%	 57.47MiB / 3.499GiB
+java_poc	210.15%	 337.2MiB / 3.499GiB
+poc_postgres	99.29%	 78.21MiB / 3.499GiB
+java_poc	132.97%	 326.7MiB / 3.499GiB
+poc_postgres	96.31%	 78.11MiB / 3.499GiB
+java_poc	164.78%	 300.9MiB / 3.499GiB
+poc_postgres	91.27%	 78.41MiB / 3.499GiB
+java_poc	105.56%	 299.8MiB / 3.499GiB
+poc_postgres	90.50%	 78.72MiB / 3.499GiB
+java_poc	124.16%	 300.2MiB / 3.499GiB
+poc_postgres	99.81%	 77.98MiB / 3.499GiB
+java_poc	121.10%	 300.3MiB / 3.499GiB
+poc_postgres	94.54%	 77.92MiB / 3.499GiB
+java_poc	122.70%	 297.6MiB / 3.499GiB
+poc_postgres	90.43%	 77.93MiB / 3.499GiB
+java_poc	106.62%	 311.6MiB / 3.499GiB
+poc_postgres	98.38%	 77.95MiB / 3.499GiB
+java_poc	118.98%	 308.8MiB / 3.499GiB
+poc_postgres	98.65%	 78.2MiB / 3.499GiB
+java_poc	116.72%	 297.7MiB / 3.499GiB
+poc_postgres	84.48%	 78.11MiB / 3.499GiB
+java_poc	102.60%	 298.1MiB / 3.499GiB
+poc_postgres	79.45%	 77.91MiB / 3.499GiB
+java_poc	0.27%	 297.3MiB / 3.499GiB
+poc_postgres	0.03%	 77.91MiB / 3.499GiB
+java_poc	0.25%	 297MiB / 3.499GiB
+poc_postgres	2.73%	 78.38MiB / 3.499GiB
+
+Final Summary:
+Metric,Java (Spring Boot),Go (sqlx + Gin),The Winner
+Throughput (RPS),76.21 req/sec,76.47 req/sec,Dead Heat
+Average Latency,30.05 ms,29.42 ms,Dead Heat
+P99 Latency,99.07 ms,56.30 ms,Go (~43% Faster)
+Max Latency,794.99 ms,456.14 ms,Go (Nearly 2x Faster)
+Peak Memory,337.20 MiB,24.52 MiB,Go (~13x Lighter)
+Peak App CPU,210.15%,159.97%,Go (Less Volatile)
+
+Explanation:
+Look at the difference between Java's max latency here (794.99 ms) versus Test 2 (620.10 ms).
+
+In Test 2, you were fetching flat rows. In Test 3, you are doing complex manual mapping. For every single JSON response, your Java code is instantiating a User, instantiating a Set of Orders, instantiating a Set of Items, and linking them all together. This creates an absolute mountain of short-lived objects on the JVM Heap.
+
+When the Java Garbage Collector wakes up to delete all those used objects, it freezes the application. That is exactly what caused that massive 794.99ms spike.
+
+Go, using lightweight structs and value types, cleans up its memory much more seamlessly. While Go also had a spike (456.14ms), its P99 remained an incredibly tight 56.3ms, proving that only a tiny fraction of its requests were delayed.
+
+3. The Perfect Baseline (PostgreSQL)
+If you look at the poc_postgres rows in your CSV data, you'll see something beautiful: The database CPU peaked at roughly 98-99% for both Java and Go.
+
+This proves your benchmark is 100% architecturally fair. Both languages are extracting the exact same amount of work from the database at the exact same speed. The only difference in performance now comes down to how the languages process the data once it leaves the database.

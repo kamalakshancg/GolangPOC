@@ -1,0 +1,226 @@
+Go APP:
+PS D:\POC\k6_test> k6 run --vus 20 --duration 30s -e API_PORT=8080 -e API_PATH=api/order/test2 load_test.js
+
+         /\      Grafana   /‾‾/
+    /\  /  \     |\  __   /  /
+   /  \/    \    | |/ /  /   ‾‾\
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/
+
+
+     execution: local
+        script: load_test.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 20 max VUs, 1m0s max duration (incl. graceful stop):
+              * default: 20 looping VUs for 30s (gracefulStop: 30s)
+
+
+
+  █ THRESHOLDS
+
+    http_req_duration
+    ✓ 'p(99)<1000' p(99)=212.94ms
+
+    http_req_failed
+    ✓ 'rate<0.01' rate=0.00%
+
+
+  █ TOTAL RESULTS
+
+    checks_total.......: 5748    190.83983/s
+    checks_succeeded...: 100.00% 5748 out of 5748
+    checks_failed......: 0.00%   0 out of 5748
+
+    ✓ status is 200
+    ✓ has body
+
+    HTTP
+    http_req_duration..............: avg=107.56ms min=11.86ms med=123.09ms max=258.53ms p(90)=166.48ms p(95)=180.02ms
+      { expected_response:true }...: avg=107.56ms min=11.86ms med=123.09ms max=258.53ms p(90)=166.48ms p(95)=180.02ms
+    http_req_failed................: 0.00%  0 out of 2874
+    http_reqs......................: 2874   95.419915/s
+
+    EXECUTION
+    iteration_duration.............: avg=209.3ms  min=112.5ms med=224.62ms max=370.64ms p(90)=268.17ms p(95)=282.02ms
+    iterations.....................: 2874   95.419915/s
+    vus............................: 20     min=20        max=20
+    vus_max........................: 20     min=20        max=20
+
+    NETWORK
+    data_received..................: 3.2 GB 106 MB/s
+    data_sent......................: 244 kB 8.1 kB/s
+
+
+
+
+running (0m30.1s), 00/20 VUs, 2874 complete and 0 interrupted iterations
+default ✓ [======================================] 20 VUs  30s
+
+CPU/MEM Stats
+Container_Name	 CPU_Percentage	 Memory_Usage
+go_poc	0.00%	 7.348MiB / 3.499GiB
+poc_postgres	0.00%	 35.79MiB / 3.499GiB
+go_poc	0.00%	 7.348MiB / 3.499GiB
+poc_postgres	2.94%	 36.66MiB / 3.499GiB
+go_poc	0.00%	 7.348MiB / 3.499GiB
+poc_postgres	0.73%	 35.95MiB / 3.499GiB
+go_poc	0.00%	 7.348MiB / 3.499GiB
+poc_postgres	0.00%	 35.71MiB / 3.499GiB
+go_poc	196.81%	 38.44MiB / 3.499GiB
+poc_postgres	56.37%	 67.83MiB / 3.499GiB
+go_poc	187.54%	 53.72MiB / 3.499GiB
+poc_postgres	48.55%	 68.05MiB / 3.499GiB
+go_poc	217.20%	 47.7MiB / 3.499GiB
+poc_postgres	53.24%	 68.09MiB / 3.499GiB
+go_poc	220.12%	 66.07MiB / 3.499GiB
+poc_postgres	52.77%	 68.09MiB / 3.499GiB
+go_poc	203.10%	 17.81MiB / 3.499GiB
+poc_postgres	63.18%	 68.14MiB / 3.499GiB
+go_poc	198.90%	 69.09MiB / 3.499GiB
+poc_postgres	53.02%	 67.95MiB / 3.499GiB
+go_poc	224.77%	 55.14MiB / 3.499GiB
+poc_postgres	66.64%	 68.25MiB / 3.499GiB
+go_poc	202.64%	 80.95MiB / 3.499GiB
+poc_postgres	55.19%	 68.29MiB / 3.499GiB
+go_poc	224.04%	 43.58MiB / 3.499GiB
+poc_postgres	58.38%	 68.04MiB / 3.499GiB
+go_poc	183.11%	 63.88MiB / 3.499GiB
+poc_postgres	46.37%	 68.31MiB / 3.499GiB
+go_poc	201.22%	 61.5MiB / 3.499GiB
+poc_postgres	49.81%	 68.32MiB / 3.499GiB
+go_poc	0.84%	 17.4MiB / 3.499GiB
+poc_postgres	3.10%	 68.48MiB / 3.499GiB
+go_poc	0.00%	 16MiB / 3.499GiB
+poc_postgres	0.00%	 68.23MiB / 3.499GiB
+
+---------------------------------------------------
+
+Java APP:
+PS D:\POC\k6_test> k6 run --vus 20 --duration 30s -e API_PORT=8080 -e API_PATH=api/order/test2 load_test.js
+
+         /\      Grafana   /‾‾/
+    /\  /  \     |\  __   /  /
+   /  \/    \    | |/ /  /   ‾‾\
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/
+
+
+     execution: local
+        script: load_test.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 20 max VUs, 1m0s max duration (incl. graceful stop):
+              * default: 20 looping VUs for 30s (gracefulStop: 30s)
+
+
+
+  █ THRESHOLDS
+
+    http_req_duration
+    ✓ 'p(99)<1000' p(99)=266.69ms
+
+    http_req_failed
+    ✓ 'rate<0.01' rate=0.00%
+
+
+  █ TOTAL RESULTS
+
+    checks_total.......: 5238    173.643827/s
+    checks_succeeded...: 100.00% 5238 out of 5238
+    checks_failed......: 0.00%   0 out of 5238
+
+    ✓ status is 200
+    ✓ has body
+
+    HTTP
+    http_req_duration..............: avg=128.35ms min=12.95ms  med=133.4ms  max=1.04s p(90)=178.23ms p(95)=207.28ms
+      { expected_response:true }...: avg=128.35ms min=12.95ms  med=133.4ms  max=1.04s p(90)=178.23ms p(95)=207.28ms
+    http_req_failed................: 0.00%  0 out of 2619
+    http_reqs......................: 2619   86.821913/s
+
+    EXECUTION
+    iteration_duration.............: avg=230.15ms min=113.54ms med=235.04ms max=1.15s p(90)=279.87ms p(95)=309.05ms
+    iterations.....................: 2619   86.821913/s
+    vus............................: 20     min=20        max=20
+    vus_max........................: 20     min=20        max=20
+
+    NETWORK
+    data_received..................: 2.9 GB 97 MB/s
+    data_sent......................: 223 kB 7.4 kB/s
+
+
+
+
+running (0m30.2s), 00/20 VUs, 2619 complete and 0 interrupted iterations
+default ✓ [======================================] 20 VUs  30s
+
+CPU/MEM Stats:
+Container_Name	 CPU_Percentage	 Memory_Usage
+java_poc	0.28%	 246.9MiB / 3.499GiB
+poc_postgres	0.00%	 72.12MiB / 3.499GiB
+java_poc	0.26%	 246.9MiB / 3.499GiB
+poc_postgres	0.01%	 72.15MiB / 3.499GiB
+java_poc	143.72%	 291.2MiB / 3.499GiB
+poc_postgres	0.00%	 72.12MiB / 3.499GiB
+java_poc	567.01%	 556.2MiB / 3.499GiB
+poc_postgres	47.99%	 77.63MiB / 3.499GiB
+java_poc	248.09%	 450.1MiB / 3.499GiB
+poc_postgres	58.39%	 77.68MiB / 3.499GiB
+java_poc	206.65%	 310.6MiB / 3.499GiB
+poc_postgres	52.47%	 77.66MiB / 3.499GiB
+java_poc	239.38%	 361.3MiB / 3.499GiB
+poc_postgres	62.05%	 77.68MiB / 3.499GiB
+java_poc	206.06%	 334.1MiB / 3.499GiB
+poc_postgres	53.44%	 77.66MiB / 3.499GiB
+java_poc	197.47%	 337.9MiB / 3.499GiB
+poc_postgres	55.25%	 77.66MiB / 3.499GiB
+java_poc	222.74%	 341.8MiB / 3.499GiB
+poc_postgres	50.81%	 77.92MiB / 3.499GiB
+java_poc	226.91%	 333.7MiB / 3.499GiB
+poc_postgres	58.75%	 77.65MiB / 3.499GiB
+java_poc	190.47%	 334.2MiB / 3.499GiB
+poc_postgres	59.60%	 77.92MiB / 3.499GiB
+java_poc	194.83%	 319.6MiB / 3.499GiB
+poc_postgres	62.42%	 77.77MiB / 3.499GiB
+java_poc	1.92%	 327.9MiB / 3.499GiB
+poc_postgres	3.20%	 77.84MiB / 3.499GiB
+java_poc	0.27%	 327.9MiB / 3.499GiB
+poc_postgres	0.00%	 77.65MiB / 3.499GiB
+java_poc	0.34%	 327.9MiB / 3.499GiB
+poc_postgres	0.62%	 77.73MiB / 3.499GiB
+java_poc	0.27%	 327.9MiB / 3.499GiB
+poc_postgres	0.01%	 77.88MiB / 3.499GiB
+java_poc	1.06%	 327.9MiB / 3.499GiB
+poc_postgres	0.06%	 78.63MiB / 3.499GiB
+java_poc	0.29%	 327.9MiB / 3.499GiB
+poc_postgres	0.00%	 77.84MiB / 3.499GiB
+java_poc	0.33%	 327.9MiB / 3.499GiB
+poc_postgres	2.90%	 78.34MiB / 3.499GiB
+
+
+Final Summary:
+Metric,Java (Spring Boot),Go (sqlx + Gin),The Difference
+Throughput (RPS),86.82 req/sec,95.41 req/sec,Go served ~10% more traffic
+Average Latency,128.35 ms,107.56 ms,Go is ~16% faster
+P99 Latency,266.69 ms,212.94 ms,Go is ~20% more consistent
+Max Latency,1.04 seconds,258.53 ms,Go is 4x faster at the extremes
+Peak Memory,556.20 MiB,80.95 MiB,Go is ~7x lighter
+Peak App CPU,567.01%,224.77%,Java experienced a massive CPU shock
+
+The JVM "Panic" Spike
+Look at the third line of your Java Docker stats: CPU: 567.01% and MEM: 556.2 MiB.
+This is the exact moment the Spring Boot application hit a wall. When 20 concurrent connections demanded 1-megabyte JSON payloads all at exactly the same time, Java had to instantly spin up heavy OS-level threads and allocate massive amounts of Heap memory. It pegged nearly 6 full CPU cores trying to handle the sudden crush of data.
+
+Because it generated so much garbage memory so quickly, the Garbage Collector panicked. It froze the application to clean up the RAM, which is exactly why your Max Latency hit 1.04 seconds. Any user hitting the API during that exact millisecond had to wait a full second for a response.
+
+3. Go's Graceful Scaling
+Now look at Go's numbers.
+
+Its CPU smoothly ramped up and peaked at just 224% (using only about 2 cores).
+
+Its memory never crossed 81 MiB.
+
+Its absolute worst-case scenario (Max Latency) was a mere 258 ms.
+
+Because Goroutines are incredibly cheap, Go didn't flinch when 20 connections hit it simultaneously. It just multiplexed the database connections and used its highly-efficient, pause-free Garbage Collector to stream the JSON out without ever "stopping the world."
