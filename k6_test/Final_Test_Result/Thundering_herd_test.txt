@@ -1,0 +1,201 @@
+Go APP:
+PS D:\POC\k6_test> k6 run --vus 100 --duration 10s -e API_PORT=8080 -e API_PATH=api/order/test2 load_test.js
+
+         /\      Grafana   /‾‾/
+    /\  /  \     |\  __   /  /
+   /  \/    \    | |/ /  /   ‾‾\
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/
+
+
+     execution: local
+        script: load_test.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 100 max VUs, 40s max duration (incl. graceful stop):
+              * default: 100 looping VUs for 10s (gracefulStop: 30s)
+
+
+
+  █ THRESHOLDS
+
+    http_req_duration
+    ✗ 'p(99)<1000' p(99)=1.33s
+
+    http_req_failed
+    ✓ 'rate<0.01' rate=0.00%
+
+
+  █ TOTAL RESULTS
+
+    checks_total.......: 2018    193.751966/s
+    checks_succeeded...: 100.00% 2018 out of 2018
+    checks_failed......: 0.00%   0 out of 2018
+
+    ✓ status is 200
+    ✓ has body
+
+    HTTP
+    http_req_duration..............: avg=920.01ms min=99.04ms  med=924.97ms max=1.45s p(90)=1.05s p(95)=1.18s
+      { expected_response:true }...: avg=920.01ms min=99.04ms  med=924.97ms max=1.45s p(90)=1.05s p(95)=1.18s
+    http_req_failed................: 0.00%  0 out of 1009
+    http_reqs......................: 1009   96.875983/s
+
+    EXECUTION
+    iteration_duration.............: avg=1.02s    min=210.04ms med=1.02s    max=1.56s p(90)=1.15s p(95)=1.3s
+    iterations.....................: 1009   96.875983/s
+    vus............................: 100    min=100       max=100
+    vus_max........................: 100    min=100       max=100
+
+    NETWORK
+    data_received..................: 1.1 GB 108 MB/s
+    data_sent......................: 86 kB  8.2 kB/s
+
+
+
+
+running (10.4s), 000/100 VUs, 1009 complete and 0 interrupted iterations
+default ✓ [======================================] 100 VUs  10s
+ERRO[0010] thresholds on metrics 'http_req_duration' have been crossed
+
+
+CPU/MEM Stats:
+Container_Name	 CPU_Percentage	 Memory_Usage
+poc_postgres	0.01%	 27.06MiB / 3.499GiB
+go_poc	0.00%	 2.312MiB / 3.499GiB
+poc_postgres	126.54%	 65.73MiB / 3.499GiB
+go_poc	253.23%	 194MiB / 3.499GiB
+poc_postgres	87.83%	 65.43MiB / 3.499GiB
+go_poc	257.92%	 30.54MiB / 3.499GiB
+poc_postgres	65.34%	 65.43MiB / 3.499GiB
+go_poc	235.75%	 50.44MiB / 3.499GiB
+poc_postgres	63.29%	 65.43MiB / 3.499GiB
+go_poc	236.73%	 114.6MiB / 3.499GiB
+poc_postgres	77.02%	 65.46MiB / 3.499GiB
+go_poc	243.52%	 39.9MiB / 3.499GiB
+poc_postgres	0.19%	 65.45MiB / 3.499GiB
+go_poc	1.78%	 23.6MiB / 3.499GiB
+poc_postgres	3.14%	 65.64MiB / 3.499GiB
+go_poc	0.00%	 22.59MiB / 3.499GiB
+poc_postgres	0.01%	 65.48MiB / 3.499GiB
+go_poc	0.00%	 22.59MiB / 3.499GiB
+poc_postgres	0.02%	 65.7MiB / 3.499GiB
+go_poc	0.00%	 22.59MiB / 3.499GiB
+poc_postgres	0.02%	 65.91MiB / 3.499GiB
+go_poc	0.00%	 22.59MiB / 3.499GiB
+poc_postgres	0.00%	 65.88MiB / 3.499GiB
+go_poc	0.00%	 22.59MiB / 3.499GiB
+poc_postgres	2.94%	 66.04MiB / 3.499GiB
+go_poc	0.00%	 22.59MiB / 3.499GiB
+poc_postgres	0.00%	 65.5MiB / 3.499GiB
+go_poc	0.00%	 22.59MiB / 3.499GiB
+
+
+
+
+
+------------------------------------------
+
+Java APP:
+PS D:\POC\k6_test> k6 run --vus 100 --duration 10s -e API_PORT=8080 -e API_PATH=api/order/test2 load_test.js
+
+         /\      Grafana   /‾‾/
+    /\  /  \     |\  __   /  /
+   /  \/    \    | |/ /  /   ‾‾\
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/
+
+
+     execution: local
+        script: load_test.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 100 max VUs, 40s max duration (incl. graceful stop):
+              * default: 100 looping VUs for 10s (gracefulStop: 30s)
+
+
+
+  █ THRESHOLDS
+
+    http_req_duration
+    ✗ 'p(99)<1000' p(99)=3.3s
+
+    http_req_failed
+    ✓ 'rate<0.01' rate=0.00%
+
+
+  █ TOTAL RESULTS
+
+    checks_total.......: 1378    131.845055/s
+    checks_succeeded...: 100.00% 1378 out of 1378
+    checks_failed......: 0.00%   0 out of 1378
+
+    ✓ status is 200
+    ✓ has body
+
+    HTTP
+    http_req_duration..............: avg=1.38s min=345.89ms med=1.12s max=3.37s p(90)=2.82s p(95)=3.1s
+      { expected_response:true }...: avg=1.38s min=345.89ms med=1.12s max=3.37s p(90)=2.82s p(95)=3.1s
+    http_req_failed................: 0.00%  0 out of 689
+    http_reqs......................: 689    65.922527/s
+
+    EXECUTION
+    iteration_duration.............: avg=1.49s min=447.24ms med=1.22s max=3.49s p(90)=2.93s p(95)=3.21s
+    iterations.....................: 689    65.922527/s
+    vus............................: 100    min=100      max=100
+    vus_max........................: 100    min=100      max=100
+
+    NETWORK
+    data_received..................: 766 MB 73 MB/s
+    data_sent......................: 59 kB  5.6 kB/s
+
+
+
+
+running (10.5s), 000/100 VUs, 689 complete and 0 interrupted iterations
+default ✓ [======================================] 100 VUs  10s
+ERRO[0010] thresholds on metrics 'http_req_duration' have been crossed
+
+CPU/MEM Stats
+
+Container_Name	 CPU_Percentage	 Memory_Usage
+java_poc	0.26%	 248.5MiB / 3.499GiB
+poc_postgres	2.93%	 61.24MiB / 3.499GiB
+java_poc	0.33%	 221.1MiB / 3.499GiB
+poc_postgres	0.00%	 58.86MiB / 3.499GiB
+java_poc	0.34%	 221.1MiB / 3.499GiB
+poc_postgres	0.00%	 58.86MiB / 3.499GiB
+java_poc	32.95%	 237.8MiB / 3.499GiB
+poc_postgres	0.01%	 59MiB / 3.499GiB
+java_poc	772.17%	 539.2MiB / 3.499GiB
+poc_postgres	71.97%	 66.11MiB / 3.499GiB
+java_poc	519.77%	 594.7MiB / 3.499GiB
+poc_postgres	74.23%	 66.45MiB / 3.499GiB
+java_poc	274.38%	 647.6MiB / 3.499GiB
+poc_postgres	61.61%	 66.58MiB / 3.499GiB
+java_poc	280.73%	 658.8MiB / 3.499GiB
+poc_postgres	61.64%	 66.55MiB / 3.499GiB
+java_poc	209.84%	 378.5MiB / 3.499GiB
+poc_postgres	52.18%	 66.54MiB / 3.499GiB
+java_poc	0.75%	 377.7MiB / 3.499GiB
+poc_postgres	0.00%	 67.79MiB / 3.499GiB
+java_poc	0.73%	 377.8MiB / 3.499GiB
+poc_postgres	3.76%	 66.6MiB / 3.499GiB
+--	 --	 -- / --
+--	 --	 -- / --
+
+
+Final Summary Explanation:
+2. The Architectural Analysis: Why Java redlined your CPU
+The most staggering piece of data you collected here is the CPU utilization. Java hit 772% CPU, essentially maxing out 8 of your CPU's threads, while Go only needed 257% CPU to do more work.
+
+Why did this happen? It comes down to how the servers handle concurrency:
+
+Java's "Thread-Per-Request" Model: By default, Spring Boot uses Tomcat. Tomcat assigns a heavy, operating-system-level Thread to every single user. When 100 users hit the API simultaneously, Tomcat instantly spun up 100 massive OS threads. Your CPU spent a massive amount of its energy just rapidly switching between these 100 threads (this is called "Context Switching") instead of actually processing the JSON payload. That is why the CPU skyrocketed and the latency slowed down to 3.3 seconds.
+
+Go's "Goroutine" Model: Go does not use heavy OS threads. It uses lightweight "Goroutines." When 100 users hit the Go API, it spawned 100 Goroutines, which take up almost zero memory and require zero OS-level context switching. Go just calmly distributed those Goroutines across 2.5 CPU cores, did the math, and handed back the responses in under 1.5 seconds.
+
+3. The Memory Tax
+When Java had to juggle those 100 threads and the massive influx of nested JSON objects, its memory footprint tripled from its idle state, peaking at 658 MiB. The Garbage Collector was likely working overtime just to keep the application alive.
+
+Go, handling the exact same workload, peaked at a microscopic 194 MiB.

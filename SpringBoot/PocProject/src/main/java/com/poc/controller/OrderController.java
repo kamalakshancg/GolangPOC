@@ -3,7 +3,6 @@ package com.poc.controller;
 import com.poc.entity.Order;
 import com.poc.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,22 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/order")
+@RequestMapping("/order")
 public class OrderController {
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
     @Autowired
     private OrderService orderService;
 
-    @GetMapping("/test1")
-    public String test1() {
-        return jdbcTemplate.queryForObject("SELECT 'pong'", String.class);
-    }
-
-    @GetMapping("/test2")
-    public List<Order> test2() {
+    @GetMapping("/getOrders")
+    public List<Order> getOrder() {
         return orderService.getOrderDetails();
     }
 

@@ -11,5 +11,5 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     @Query(value = "SELECT id, user_id, amount, status, description FROM orders ORDER BY id LIMIT 1000", nativeQuery = true)
-    List<Order> findWideOrders();
+    List<Order> getOrders();
 }

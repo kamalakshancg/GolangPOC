@@ -15,8 +15,8 @@ func NewUserHandler(userService *service.UserService) *UserHandler {
 	return &UserHandler{UserService: userService}
 }
 
-func (h *UserHandler) Test3(c *gin.Context) {
-	res, err := h.UserService.ExecuteTest3()
+func (h *UserHandler) GetUserWithOrdersHandler(c *gin.Context) {
+	res, err := h.UserService.GetUserWithOrders()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

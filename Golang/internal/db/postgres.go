@@ -10,7 +10,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func NewPostgresDB(dsn string) *sqlx.DB {
+func GetDBConnection(dsn string) *sqlx.DB {
 	db, err := sqlx.Connect("postgres", dsn)
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
@@ -32,6 +32,6 @@ func LoadDBConfig() string {
 	dbname := os.Getenv("DB_NAME")
 	sslmode := os.Getenv("DB_SSLMODE")
 
-	dsn := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=%s", user, password, host, port, dbname, sslmode)
-	return dsn
+	dbURL := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=%s", user, password, host, port, dbname, sslmode)
+	return dbURL
 }

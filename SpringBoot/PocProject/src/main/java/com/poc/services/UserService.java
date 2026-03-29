@@ -18,61 +18,44 @@ public class UserService {
     @Autowired
     private UserRepository repo;
 
-    public List<User> userWithOrder() {
-        // 1. Start Stopwatch
-        long start = System.currentTimeMillis();
-
-        List<Object[]> rows = repo.userWithOrder();
-
-        // 2. Capture DB Time
-        long dbTime = System.currentTimeMillis() - start;
-        System.out.println("Test 3 DB Fetch Time: " + dbTime + " ms");
-
+    public List<User> getUserWithOrderDetails() {
+        List<Object[]> rows = repo.getUserWithOrders();
         // Map to group Users by ID while maintaining SQL Order
         Map<Integer, User> userMap = new LinkedHashMap<>();
-
         for (Object[] row : rows) {
-            // Safe Casting for PostgreSQL native query results
-            int userId = ((Number) row[0]).intValue();
-            String userName = (String) row[1];
-            int orderId = ((Number) row[2]).intValue();
-            double amount = ((Number) row[3]).doubleValue();
-            int itemId = ((Number) row[4]).intValue();
-            String product = (String) row[5];
-            int qty = ((Number) row[6]).intValue();
-            double price = ((Number) row[7]).doubleValue();
-            String email = (String) row[8];
-            String status = (String) row[9];
-            String description = (String) row[10];
+            final int userId = ((Number) row[0]).intValue();
+            final String userName = (String) row[1];
+            final int orderId = ((Number) row[2]).intValue();
+            final double amount = ((Number) row[3]).doubleValue();
+            final int itemId = ((Number) row[4]).intValue();
+            final String product = (String) row[5];
+            final int qty = ((Number) row[6]).intValue();
+            final double price = ((Number) row[7]).doubleValue();
+            final String email = (String) row[8];
+            final String status = (String) row[9];
+            final String description = (String) row[10];
 
-            // 1. Get or Create User (Passing null for email since it isn't in our SQL)
-            User user = userMap.computeIfAbsent(userId, id -> new User(id, userName, email));
+            // 1. Get or Create User
+            final User user = userMap.computeIfAbsent(userId, id -> new User(id, userName, email));
 
             // 2. Find or Create Order
             Order currentOrder = null;
-            // Iterate through existing orders to see if we already created it
-            for (Order o : user.getOrders()) {
-                if (o.getId() == orderId) {
-                    currentOrder = o;
+            for (Order order : user.getOrders()) {
+                if (order.getId() == orderId) {
+                    currentOrder = order;
                     break;
                 }
             }
 
             if (currentOrder == null) {
-                // Passing null for status/description since they aren't in this SQL projection
                 currentOrder = new Order(orderId, amount, status, description, userId);
                 user.addOrder(currentOrder);
             }
 
-            // 3. Create and Add Item
-            Item item = new Item(itemId, product, qty, price);
+            //3. Create and Add Item
+            final Item item = new Item(itemId, product, qty, price);
             currentOrder.addItem(item);
         }
-
-        // 3. Capture Total Internal Time
-        long totalTime = System.currentTimeMillis() - start;
-        System.out.println("Test 3 Total Internal Time: " + totalTime + " ms");
-
         return new ArrayList<>(userMap.values());
     }
 }

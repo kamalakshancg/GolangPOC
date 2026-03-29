@@ -9,7 +9,7 @@ type UserRepo struct {
 	Db *sqlx.DB
 }
 
-func (r *UserRepo) GetDeepNestedRows() ([]dto.FlatJoinRow, error) {
+func (r *UserRepo) GetUserWithOrders() ([]dto.FlatJoinRow, error) {
 	query := `
         SELECT u.id as u_id,u.name as u_name, o.id as o_id,  
                o.amount as o_amount, i.id as i_id,  

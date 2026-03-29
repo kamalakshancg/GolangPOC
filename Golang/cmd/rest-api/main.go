@@ -10,13 +10,11 @@ import (
 
 func main() {
 	// 1. Init DB
-	dsn := db.LoadDBConfig()
-	database := db.NewPostgresDB(dsn)
+	dbURL := db.LoadDBConfig()
+	dbConnection := db.GetDBConnection(dbURL)
 
-	// 2. Dependency Injection
-
-	userRepo := repository.UserRepo{Db: database}
-	orderRepo := repository.OrderRepo{Db: database}
+	userRepo := repository.UserRepo{Db: dbConnection}
+	orderRepo := repository.OrderRepo{Db: dbConnection}
 
 	userService := service.UserService{UserRepo: &userRepo}
 	userHandler := handler.UserHandler{UserService: &userService}
@@ -26,15 +24,14 @@ func main() {
 
 	// 3. Router Setup
 	r := gin.Default()
-	api := r.Group("/api/user")
+	api := r.Group("/user")
 	{
-		api.GET("/test3", userHandler.Test3)
+		api.GET("/getUserWithOrders", userHandler.GetUserWithOrdersHandler)
 	}
 
-	api1 := r.Group("/api/order")
+	api1 := r.Group("/order")
 	{
-		api1.GET("/test1", orderHandler.Test1)
-		api1.GET("/test2", orderHandler.Test2)
+		api1.GET("/getOrders", orderHandler.GetOrdersHandler)
 	}
 
 	r.Run(":8081")

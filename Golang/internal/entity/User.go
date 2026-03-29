@@ -4,5 +4,5 @@ type User struct {
 	ID     int     `json:"id"`
 	Name   string  `json:"name"`
 	Email  string  `json:"email,omitempty"`
-	Orders []Order `json:"orders"` // Slice of actual Orders
+	Orders []Order `json:"orders"`
 }

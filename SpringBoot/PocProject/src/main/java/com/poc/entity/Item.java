@@ -1,6 +1,5 @@
 package com.poc.entity;
 
-import lombok.Getter;
 
 
 public class Item {

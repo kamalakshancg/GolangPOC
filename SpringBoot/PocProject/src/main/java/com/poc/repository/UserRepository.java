@@ -21,5 +21,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
         ORDER BY u.id
         LIMIT 1000
         """, nativeQuery = true)
-    List<Object[]> userWithOrder();
+    List<Object[]> getUserWithOrders();
 }

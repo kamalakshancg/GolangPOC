@@ -14,6 +14,6 @@ public class OrderService {
     private OrderRepository orderRepository;
 
     public List<Order> getOrderDetails(){
-        return orderRepository.findWideOrders();
+        return orderRepository.getOrders();
     }
 }

@@ -1,9 +1,6 @@
 package service
 
 import (
-	"fmt"
-	"time"
-
 	"github.com/kamalakshancg/GolangPOC/internal/entity"
 	"github.com/kamalakshancg/GolangPOC/internal/repository"
 )
@@ -12,22 +9,11 @@ type UserService struct {
 	UserRepo *repository.UserRepo
 }
 
-func NewUserService(userRepo *repository.UserRepo) *UserService {
-	return &UserService{UserRepo: userRepo}
-}
-
-func (s *UserService) ExecuteTest3() ([]entity.User, error) {
-	// Start the stopwatch for your spreadsheet
-	start := time.Now()
-
-	rows, err := s.UserRepo.GetDeepNestedRows()
+func (s *UserService) GetUserWithOrders() ([]entity.User, error) {
+	rows, err := s.UserRepo.GetUserWithOrders()
 	if err != nil {
 		return nil, err
 	}
-
-	// Capture exact DB Time
-	dbFetchTime := time.Since(start).Milliseconds()
-	fmt.Printf("Test 3 DB Fetch Time: %d ms\n", dbFetchTime)
 
 	// Use a slice to preserve order, and a map to track slice indices
 	var result []entity.User
@@ -67,7 +53,6 @@ func (s *UserService) ExecuteTest3() ([]entity.User, error) {
 				Items:       []entity.Item{},
 			}
 			result[idx].Orders = append(result[idx].Orders, newOrder)
-			// Point to the newly appended order in the slice
 			currentOrder = &result[idx].Orders[len(result[idx].Orders)-1]
 		}
 
@@ -80,10 +65,5 @@ func (s *UserService) ExecuteTest3() ([]entity.User, error) {
 		}
 		currentOrder.Items = append(currentOrder.Items, item)
 	}
-
-	// Capture Total internal time
-	totalInternalTime := time.Since(start).Milliseconds()
-	fmt.Printf("Test 3 Total Internal Time: %d ms\n", totalInternalTime)
-
 	return result, nil
 }

@@ -9,14 +9,9 @@ type OrderRepo struct {
 	Db *sqlx.DB
 }
 
-func (r *OrderRepo) GetWideOrders() ([]entity.Order, error) {
+func (r *OrderRepo) GetOrders() ([]entity.Order, error) {
 	var orders []entity.Order
-	err := r.Db.Select(&orders, "SELECT id, user_id, amount, status, description FROM orders order by id LIMIT 1000")
+	query := "SELECT id, user_id, amount, status, description FROM orders order by id LIMIT 1000"
+	err := r.Db.Select(&orders, query)
 	return orders, err
-}
-
-func (r *OrderRepo) PingDB() (string, error) {
-	var status string
-	err := r.Db.Get(&status, "SELECT 'pong'")
-	return status, err
 }

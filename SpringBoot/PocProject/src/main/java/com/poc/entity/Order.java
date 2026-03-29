@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.Getter;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +18,6 @@ public class Order {
     private String status;
     private String description;
     private Integer userId;
-
     @Transient
     private Set<Item> items = new HashSet<>();
 

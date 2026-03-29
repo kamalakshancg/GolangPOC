@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/test3")
-    public List<User> test3() {
-        return userService.userWithOrder();
+    @GetMapping("/getUserWithOrders")
+    public List<User> getUserWithOrders() {
+        return userService.getUserWithOrderDetails();
     }
 }

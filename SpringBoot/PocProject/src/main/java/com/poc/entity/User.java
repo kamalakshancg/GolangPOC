@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.Getter;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -29,10 +28,6 @@ public class User {
     protected User(){
     }
 
-    public void addOrder(final Order order){
-        this.orders.add(order);
-    }
-
     public Integer getId() {
         return id;
     }
@@ -47,5 +42,9 @@ public class User {
 
     public Set<Order> getOrders() {
         return orders;
+    }
+
+    public void addOrder(final Order order){
+        this.orders.add(order);
     }
 }
