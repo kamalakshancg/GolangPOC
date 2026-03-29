@@ -3,10 +3,10 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
-RUN go build -o go_poc_app cmd/rest-api/main.go
+RUN go build -o GoPocApp cmd/rest-api/PocApplication.go
 
 FROM alpine:latest
 WORKDIR /app
-COPY --from=builder /app/go_poc_app .
+COPY --from=builder /app/GoPocApp .
 EXPOSE 8080
-CMD ["./go_poc_app"]
+CMD ["./GoPocApp"]
