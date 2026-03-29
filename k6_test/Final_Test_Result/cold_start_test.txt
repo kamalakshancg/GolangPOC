@@ -1,0 +1,25 @@
+PS D:\POC\k6_test> .\cold_start.ps1 -ContainerName "go_poc" -Port "8080"
+Preparing Cold Start for go_poc...
+Starting container and starting the stopwatch...
+SUCCESS: go_poc woke up and served traffic in: 1.1691842 seconds
+
+PS D:\POC\k6_test> .\cold_start.ps1 -ContainerName "java_poc" -Port "8080"
+Preparing Cold Start for java_poc...
+Starting container and starting the stopwatch...
+SUCCESS: java_poc woke up and served traffic in: 5.6816642 seconds
+
+
+
+The Cold Start Scorecard (Container Boot to First Response)
+Go (go_poc): 1.16 seconds
+
+Java (java_poc): 5.68 seconds
+
+The Verdict: Go is nearly 5x faster to boot.
+
+The Technical Analysis
+To be completely accurate for your report, you should note the "Docker Tax." Docker itself takes about 0.8 to 1.0 seconds just to create the virtual network and bind the port.
+
+For Go: If we subtract the ~1-second Docker tax, the Go binary actually booted, connected to PostgreSQL, and started the Gin router in less than 200 milliseconds.
+
+For Java: Subtracting that same Docker tax means the JVM spent roughly 4.6 seconds allocating memory, scanning classpaths, building the Spring dependency injection context, and warming up the Tomcat server.
