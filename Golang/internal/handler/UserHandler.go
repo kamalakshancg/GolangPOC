@@ -11,10 +11,6 @@ type UserHandler struct {
 	UserService *service.UserService
 }
 
-func NewUserHandler(userService *service.UserService) *UserHandler {
-	return &UserHandler{UserService: userService}
-}
-
 func (h *UserHandler) GetUserWithOrdersHandler(c *gin.Context) {
 	res, err := h.UserService.GetUserWithOrders()
 	if err != nil {
